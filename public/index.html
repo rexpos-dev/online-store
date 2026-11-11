@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/store.css">
+</head>
+<body class="store">
+  <!-- Top strip -->
+  <div class="strip">
+    <div class="wrap strip-inner">
+      <span id="stripEmail" class="strip-item"></span>
+      <span id="stripPhone" class="strip-item"></span>
+      <span class="spacer"></span>
+      <span class="strip-item hide-sm">Welcome to our store!</span>
+      <a href="#/track" class="strip-item">Track your order</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <a href="#/" class="logo" id="logo">Store</a>
+      <nav class="main-nav" id="mainNav">
+        <a href="#/" data-nav="home">Home</a>
+        <div class="nav-drop">
+          <a href="#/shop" data-nav="shop">Shop <svg viewBox="0 0 24 24" class="caret"><path d="m6 9 6 6 6-6"/></svg></a>
+          <div class="drop" id="catMenu"></div>
+        </div>
+        <a href="#/shop/new" data-nav="new">New Arrivals</a>
+        <a href="#/shop/sale" data-nav="sale" class="nav-sale">On Sale</a>
+        <a href="#/track" data-nav="track">Track Order</a>
+      </nav>
+      <div class="header-actions">
+        <form class="search-box" id="searchForm" role="search">
+          <input id="search" type="search" placeholder="Search products…" aria-label="Search products" autocomplete="off">
+          <button type="submit" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+        </form>
+        <button class="icon-btn search-toggle" id="searchToggle" aria-label="Search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="icon-btn cart-icon" id="cartBtn" aria-label="Cart">
+          <svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer class="site-footer" id="footer"></footer>
+
+  <!-- Cart drawer -->
+  <aside class="drawer" id="drawer" aria-label="Shopping cart">
+    <div class="drawer-head">
+      <h2>Your cart</h2>
+      <button class="x" type="button" data-close-drawer aria-label="Close">&times;</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-foot" id="drawerFoot"></div>
+  </aside>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="productModal"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/store.js"></script>
+</body>
+</html>

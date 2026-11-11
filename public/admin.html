@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Portal</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- App -->
+  <div class="admin hidden" id="adminView">
+    <aside class="side">
+      <div class="brand"><span id="sideStore">Store</span><small>ADMIN PORTAL</small></div>
+      <a href="#dashboard" data-nav="dashboard">Dashboard</a>
+      <a href="#products" data-nav="products">Products &amp; inventory</a>
+      <a href="#orders" data-nav="orders">Orders <span class="badge hidden" id="pendingBadge">0</span></a>
+      <a href="#reports" data-nav="reports">Sales report</a>
+      <a href="#settings" data-nav="settings">Settings</a>
+      <div class="bottom">
+        <a href="/" target="_blank" rel="noopener">View store ↗</a>
+        <span class="side-user" id="sideUser"></span>
+        <a href="#" id="logoutBtn">Sign out</a>
+      </div>
+    </aside>
+    <main class="main" id="main"></main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="modal" id="modal"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/reports.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

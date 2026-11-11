@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="login-page">
+    <section class="login-side">
+      <a href="/" class="login-brand" id="storeName">Online Store</a>
+      <div>
+        <h1>Manage your store in one place.</h1>
+        <p>Add products, set prices, track inventory and process orders.</p>
+      </div>
+      <span class="small" style="opacity:.6">Admin portal</span>
+    </section>
+
+    <section class="login-main">
+      <form class="login-form" id="loginForm" novalidate>
+        <h2>Sign in</h2>
+        <p class="muted" style="margin:0 0 22px">Enter your admin account details.</p>
+
+        <div id="demoBox"></div>
+        <div id="loginErr" role="alert"></div>
+
+        <div class="field">
+          <label for="username">Username</label>
+          <input id="username" name="username" autocomplete="username" required autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw-wrap">
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+            <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">Show</button>
+          </div>
+        </div>
+        <label class="check" style="margin:4px 0 20px"><input type="checkbox" name="remember"> Keep me signed in for 30 days</label>
+        <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in</button>
+        <p class="small muted" style="text-align:center;margin-top:18px"><a href="/">← Back to store</a></p>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script>
+    const form = document.getElementById('loginForm');
+    const errBox = document.getElementById('loginErr');
+
+    api('/api/store').then((s) => {
+      document.getElementById('storeName').textContent = s.storeName;
+      document.title = `Admin Login · ${s.storeName}`;
+    }).catch(() => {});
+
+    api('/api/auth/demo').then((d) => {
+      if (!d.show) return;
+      const box = document.getElementById('demoBox');
+      box.innerHTML = `
+        <div class="demo-box">
+          <div><strong>Demo account</strong></div>
+          <div class="small">Username: <code>${esc(d.username)}</code> · Password: <code>${esc(d.password)}</code></div>
+          <button type="button" class="btn btn-sm" id="useDemo" style="margin-top:8px">Use demo login</button>
+          <div class="small" style="margin-top:6px;opacity:.8">This hint disappears once the demo password is changed in Settings.</div>
+        </div>`;
+      document.getElementById('useDemo').onclick = () => {
+        form.username.value = d.username;
+        form.password.value = d.password;
+        form.requestSubmit();
+      };
+    }).catch(() => {});
+
+    document.getElementById('pwToggle').addEventListener('click', (e) => {
+      const show = form.password.type === 'password';
+      form.password.type = show ? 'text' : 'password';
+      e.target.textContent = show ? 'Hide' : 'Show';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBox.innerHTML = '';
+      if (!form.username.value.trim() || !form.password.value) {
+        errBox.innerHTML = '<div class="alert alert-error">Please enter your username and password.</div>';
+        return;
+      }
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true; btn.textContent = 'Signing in…';
+      try {
+        await api('/api/auth/login', { json: { username: form.username.value.trim(), password: form.password.value, remember: form.remember.checked } });
+        location.href = '/admin';
+      } catch (err) {
+        errBox.innerHTML = `<div class="alert alert-error">${esc(err.message)}</div>`;
+        form.password.value = '';
+        form.password.focus();
+        btn.disabled = false; btn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>
